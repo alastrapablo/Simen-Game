@@ -5,9 +5,9 @@ let userClickedPattern = []
 $('.btn').click(function () {
     let useChousenColour = $(this).attr('id');
     userClickedPattern.push(useChousenColour);
-    console.log(userClickedPattern);
+    // console.log(userClickedPattern);
     playSound(useChousenColour)
-    animation(useChousenColour)
+    animatePress(useChousenColour)
 });
 
 function nextSequence() {
@@ -27,6 +27,15 @@ function playSound(color) {
 function animation(color) {
     $("#" + color).fadeIn(100).fadeOut(100).fadeIn(100);
 }
+
+function animatePress(currentColour) {
+    $("#" + currentColour).addClass('pressed');
+
+    setTimeout(() => {
+        $("#" + currentColour).removeClass('pressed');
+    }, 100);
+}
+
 // $('.button').click(function () {
 //     console.log('hola')
 //     $('button').css()
@@ -61,4 +70,3 @@ function animation(color) {
 //             break;
 //     };
 // }
-
