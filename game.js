@@ -2,21 +2,57 @@ let buttonColours = ['red', 'blue', 'green', 'yellow']
 let gamePattern = []
 let userClickedPattern = []
 
+let level = 0
+let started = false;
+
+$(document).keypress(function () {
+    if (!started) {
+        $('#level-title').text('Level ' + level);
+
+        setTimeout(() => {
+            nextSequence()
+        }, 500);
+        started = true;
+    }
+});
+
 $('.btn').click(function () {
     let useChousenColour = $(this).attr('id');
     userClickedPattern.push(useChousenColour);
     // console.log(userClickedPattern);
     playSound(useChousenColour)
     animatePress(useChousenColour)
+    checkAnswer(userClickedPattern.length - 1);
 });
 
+function checkAnswer(currentLevel) {
+    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+        console.log('success');
+
+        if (userClickedPattern.length === gamePattern.length) {
+            setTimeout(() => {
+                nextSequence()
+            }, 1000);
+        }
+    } else {
+        console.log('wrong');
+    }
+}
+
 function nextSequence() {
+    userClickedPattern = [];
+
+    level++
+    $('#level-title').text('Level ' + level);
+
     let randomNumber = Math.floor(Math.random() * 4)
     let randomChosenColour = buttonColours[randomNumber]
     gamePattern.push(randomChosenColour)
 
-    animation(randomChosenColour);
-    playSound(randomChosenColour);
+    setTimeout(() => {
+        animation(randomChosenColour);
+        playSound(randomChosenColour);
+    }, 500);
 }
 
 function playSound(color) {
@@ -35,38 +71,3 @@ function animatePress(currentColour) {
         $("#" + currentColour).removeClass('pressed');
     }, 100);
 }
-
-// $('.button').click(function () {
-//     console.log('hola')
-//     $('button').css()
-//     makeSound('class')
-// })
-
-// function makeSound(color) {
-//     switch (color) {
-//         case 'btn red':
-//             let red = new Audio('sounds/red.mpe');
-//             red.play()
-//             break;
-
-//         case 'btn blue':
-//             let blue = new Audio('sounds/blue.mpe');
-//             blue.play()
-//             break;
-
-//         case 'btn yellow':
-//             let yellow = new Audio('sounds/yellow.mpe');
-//             yellow.play()
-//             break;
-
-//         case 'btn green':
-//             let green = new Audio('sounds/green.mpe');
-//             green.play()
-//             break;
-
-//         default:
-//             let wrong = new Audio('sounds/wrong.mpe');
-//             wrong.play()
-//             break;
-//     };
-// }
