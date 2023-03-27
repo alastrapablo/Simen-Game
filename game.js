@@ -36,6 +36,13 @@ function checkAnswer(currentLevel) {
         }
     } else {
         console.log('wrong');
+        playSound('wrong')
+        $('body').addClass('game-over')
+
+        setTimeout(() => {
+            $('body').removeClass('game-over')
+            $('h1').text('Game Over, Press Any Key to Restart')
+        }, 200);
     }
 }
 
